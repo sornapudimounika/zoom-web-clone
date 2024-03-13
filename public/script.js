@@ -1,15 +1,16 @@
 // javascript of the front end is going to live here.
 
-
 const videoGrid = document.getElementById('video-grid');
 const myVideo = document.createElement('video');
 const socket = io('/');
+// const closeButton = document.getElementById('leave_meeting');
+
 myVideo.muted = true;
 
 var peer = new Peer(undefined, {
     path: '/peerjs',
     host: '/',
-    port: '443'
+    port: '3030'
 });
 
 let myVideoStream;
@@ -55,7 +56,7 @@ navigator.mediaDevices.getUserMedia({
     });
 
     socket.on('createMessage', message => {
-        console.log("create a mssg", message);
+        // console.log("create a mssg", message);
         $('ul').append(`<li class="message"><b>user</b><br/>${message}</li>`)
         scrollToBottom()
     })
@@ -137,3 +138,11 @@ const setPlayVideo = () => {
     `;
     document.querySelector('.main__video_button').innerHTML = html;
 }
+
+
+// const closeTab = () => {
+//     closeButton.addEventListener('click', () => {
+//     socket.emit('close-tab'); // Still emit the event for server-side awareness
+//     window.location.href = 'https://www.google.com/'; // Replace with the desired URL to redirect to
+//   });
+// }

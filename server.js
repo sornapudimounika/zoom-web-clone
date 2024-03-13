@@ -1,9 +1,9 @@
-const express = require('express');         // improting express
+const express = require('express');         
 
 const app = express();
-const server = require('http').Server(app);     
-const io = require('socket.io')(server);
-const { v4: uuidv4 } = require('uuid');      // importing uuid
+const server = require('http').createServer(app);     
+const io = new require('socket.io')(server);
+const { v4: uuidv4 } = require('uuid');      
 const { ExpressPeerServer } = require('peer');
 const peerServer = ExpressPeerServer(server, {
     debug: true
@@ -28,10 +28,13 @@ io.on('connection', socket => {
         socket.on('message', message => {
             io.to(roomId).emit('createMessage', message);
         })
-
+        // socket.on('close-tab', () => {
+        //   socket.disconnect(); // Close the socket connection
+        //   console.log('Tab closed from client');
+        // });      
     })
 })
 
-
+  
 
 server.listen(process.env.PORT||3030);
